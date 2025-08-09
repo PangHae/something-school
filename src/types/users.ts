@@ -3,3 +3,8 @@ export interface User {
 	gender?: 'male' | 'female';
 	class: number;
 }
+
+export interface UserDTO extends User {
+	id: number;
+	created_at: string;
+}

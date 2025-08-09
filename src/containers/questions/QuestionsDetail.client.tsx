@@ -62,7 +62,7 @@ const QuestionsDetailClient = () => {
 
 			{/* Question Card */}
 			<Card className="card-gradient mb-6">
-				<CardContent className="px-2 py-2">
+				<CardContent className="p-2">
 					<h3 className="text-lg font-bold text-gray-800 mb-6">
 						{question.question}
 					</h3>

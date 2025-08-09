@@ -1,5 +1,7 @@
+import AdminClient from './Admin.client';
+
 const Admin = () => {
-	return <div>Admin</div>;
+	return <AdminClient />;
 };
 
 export default Admin;

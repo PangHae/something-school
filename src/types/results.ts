@@ -30,3 +30,38 @@ export interface RecentParticipant {
 	resultSubtype: string;
 	createdAt: string;
 }
+
+export interface UserResultJoined {
+	id: number;
+	user_id: number;
+	estrogen_score: number;
+	testosterone_score: number;
+	result_type: string;
+	result_subtype: string;
+	created_at: string;
+	users: {
+		id: number;
+		name: string;
+		gender: string;
+		class: number;
+		created_at: string;
+	};
+}
+
+export interface ResultDTO {
+	id: number;
+	user_id: number;
+	estrogen_score: number;
+	testosterone_score: number;
+	result_type: string;
+	result_subtype: string;
+	created_at: string;
+}
+
+export interface ResultRequest {
+	userId: number;
+	estrogenScore: number;
+	testosteroneScore: number;
+	resultType: string;
+	resultSubtype: string;
+}

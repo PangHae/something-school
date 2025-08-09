@@ -2,27 +2,117 @@
 
 import { useEffect, useState } from 'react';
 
-import { useRouter } from 'next/navigation';
+import { useMutation } from '@tanstack/react-query';
+import { toast } from 'sonner';
 
-import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { calculateResults, getResultAnalysis } from '@/lib/questions';
-import { TestResult } from '@/types/results';
+import { calculateStats } from '@/lib/status';
+import { createResult, subscribeToUserResults } from '@/services/db/results';
+import { createUser } from '@/services/db/users';
+import { TestResult, ParticipantStats } from '@/types/results';
 import { User } from '@/types/users';
 
 const ResultClient = () => {
-	const router = useRouter();
 	const [userInfo, setUserInfo] = useState<User | null>(null);
 	const [testResult, setTestResult] = useState<TestResult | null>(null);
-	const [, setAnswers] = useState<number[]>([]);
+	const [stats, setStats] = useState<ParticipantStats | null>(null);
+	const [statsLoading, setStatsLoading] = useState(true);
 
-	const restartTest = () => {
-		router.replace('/questions');
-	};
+	const { mutate: resultMutate, isPending: isResultPending } = useMutation({
+		mutationFn: createResult,
+		onSuccess: (data) => {
+			sessionStorage.setItem('submitted', 'true');
+
+			// 본인 결과를 즉시 통계에 반영
+			if (testResult && userInfo) {
+				const newResult = {
+					id: data[0].id,
+					user_id: data[0].user_id,
+					estrogen_score: data[0].estrogen_score,
+					testosterone_score: data[0].testosterone_score,
+					result_type: data[0].result_type,
+					result_subtype: data[0].result_subtype,
+					created_at: data[0].created_at,
+					users: {
+						id: data[0].user_id,
+						name: userInfo.name,
+						gender: userInfo.gender || 'male',
+						class: userInfo.class,
+						created_at: data[0].created_at,
+					},
+				};
+
+				// 기존 통계에 본인 결과 추가하여 즉시 업데이트
+				setStats((prevStats) => {
+					if (!prevStats) {
+						return calculateStats([newResult]);
+					}
+
+					// 본인 결과가 이미 포함되어 있지 않다면 추가
+					const updatedStats = {
+						...prevStats,
+						total: prevStats.total + 1,
+					};
+
+					// 결과 타입에 따라 카운트 증가
+					if (testResult.resultType === '에스트로겐형') {
+						updatedStats.estrogenCount += 1;
+						if (userInfo.gender === 'female') {
+							updatedStats.estrogenFemale += 1;
+						} else {
+							updatedStats.estrogenMale += 1;
+						}
+					} else if (testResult.resultType === '테스토스테론형') {
+						updatedStats.testosteroneCount += 1;
+						if (userInfo.gender === 'female') {
+							updatedStats.testosteroneFemale += 1;
+						} else {
+							updatedStats.testosteroneMale += 1;
+						}
+					}
+
+					// 퍼센트 재계산
+					updatedStats.estrogenPercent = Math.round(
+						(updatedStats.estrogenCount / updatedStats.total) * 100
+					);
+					updatedStats.testosteronePercent = Math.round(
+						(updatedStats.testosteroneCount / updatedStats.total) * 100
+					);
+
+					return updatedStats;
+				});
+			}
+
+			toast.success('결과 저장 완료');
+		},
+		onError: (error) => {
+			toast.error(error.message);
+		},
+	});
+
+	const { mutate: userMutate, isPending: isUserPending } = useMutation({
+		mutationFn: createUser,
+		onSuccess: (data) => {
+			if (testResult) {
+				resultMutate({
+					userId: data.id,
+					estrogenScore: testResult.estrogenScore,
+					testosteroneScore: testResult.testosteroneScore,
+					resultType: testResult.resultType,
+					resultSubtype: testResult.resultSubtype,
+				});
+			}
+		},
+		onError: (error) => {
+			toast.error(error.message);
+		},
+	});
 
 	useEffect(() => {
 		const storedUserInfo = sessionStorage.getItem('userInfo');
 		const storedAnswers = sessionStorage.getItem('testAnswers');
+		const storedSubmitted = sessionStorage.getItem('submitted');
 
 		if (!storedUserInfo || !storedAnswers) {
 			return;
@@ -32,27 +122,53 @@ const ResultClient = () => {
 		const parsedAnswers = JSON.parse(storedAnswers);
 
 		setUserInfo(parsedUserInfo);
-		setAnswers(parsedAnswers);
 
 		const results = calculateResults(parsedAnswers, parsedUserInfo.gender);
 		setTestResult(results);
 
-		const participantData = {
-			name: parsedUserInfo.name,
-			gender: parsedUserInfo.gender,
-			class: parsedUserInfo.class,
-			estrogenScore: results.estrogenScore,
-			testosteroneScore: results.testosteroneScore,
-			resultType: results.resultType,
-			resultSubtype: results.resultSubtype,
-			answers: parsedAnswers,
-		};
-		console.log(participantData);
-		// saveParticipant.mutate(participantData);
+		if (!Boolean(storedSubmitted)) {
+			userMutate({
+				name: parsedUserInfo.name,
+				gender: parsedUserInfo.gender,
+				class: parsedUserInfo.class,
+			});
+		}
+	}, []);
+
+	useEffect(() => {
+		const unsubscribe = subscribeToUserResults(
+			(data) => {
+				const calculatedStats = calculateStats(data);
+				setStats(calculatedStats);
+				setStatsLoading(false);
+			},
+			(error) => {
+				console.error('실시간 구독 에러:', error);
+				setStatsLoading(false);
+			},
+			true // 오늘 날짜만 필터링
+		);
+
+		return unsubscribe;
 	}, []);
 
 	if (!userInfo || !testResult) {
 		return <div className="page-container">결과 계산 중...</div>;
+	}
+
+	// 저장 중일 때 로딩 표시
+	if (isUserPending || isResultPending) {
+		return (
+			<div className="page-container">
+				<div className="text-center">
+					<div className="text-2xl mb-4">💾</div>
+					<div className="text-lg font-bold mb-2">
+						{isUserPending ? '사용자 정보 저장 중...' : '결과 저장 중...'}
+					</div>
+					<div className="text-sm text-gray-600">잠시만 기다려주세요</div>
+				</div>
+			</div>
+		);
 	}
 
 	const analysis = getResultAnalysis(testResult?.resultType || '');
@@ -77,7 +193,7 @@ const ResultClient = () => {
 
 			{/* Result Main Card */}
 			<Card className="card-gradient mb-6 text-center">
-				<CardContent className="p-4">
+				<CardContent className="p-2">
 					<div className="text-6xl mb-4">{testResult?.resultIcon}</div>
 					<h3 className={`text-2xl font-black mb-2 ${resultColor}`}>
 						{testResult?.resultType}
@@ -101,11 +217,10 @@ const ResultClient = () => {
 
 			{/* Detailed Analysis */}
 			<Card className="card-gradient mb-6">
-				<CardContent className="p-4">
+				<CardContent className="p-2">
 					<h4 className={`text-lg font-bold mb-4 ${resultColor}`}>
 						{analysis.title}
 					</h4>
-
 					<div className="space-y-4 text-sm">
 						<div>
 							<h5 className="font-bold text-gray-800 mb-2">
@@ -155,8 +270,8 @@ const ResultClient = () => {
 			</Card>
 
 			{/* Real-time Statistics */}
-			{/* <Card className="card-gradient mb-6">
-				<CardContent className="pt-6">
+			<Card className="card-gradient mb-6">
+				<CardContent className="p-2">
 					<h4 className="text-lg font-bold text-green-500 mb-4">
 						📊 전체 참가자 현황 (실시간)
 					</h4>
@@ -189,7 +304,7 @@ const ResultClient = () => {
 							</div>
 
 							<p className="text-xs text-gray-500 mt-2">
-								* 30초마다 자동 업데이트됩니다
+								* 실시간으로 자동 업데이트됩니다
 							</p>
 						</div>
 					) : (
@@ -198,12 +313,7 @@ const ResultClient = () => {
 						</div>
 					)}
 				</CardContent>
-			</Card> */}
-
-			{/* Restart Button */}
-			<Button onClick={restartTest} className="w-full btn-secondary">
-				🔄 다시 실험하기
-			</Button>
+			</Card>
 		</div>
 	);
 };

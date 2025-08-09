@@ -1,11 +1,23 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 
 const Home = () => {
+	const router = useRouter();
+
+	const showAdminLogin = () => {
+		const password = prompt('관리자 비밀번호를 입력하세요:');
+		if (password === process.env.NEXT_PUBLIC_ADMIN_PASSWORD) {
+			router.push('/admin');
+		} else if (password) {
+			alert('비밀번호가 틀렸습니다.');
+		}
+	};
+
 	return (
 		<div className="page-container">
 			{/* Header */}
@@ -23,7 +35,7 @@ const Home = () => {
 				<div className="absolute top-2 right-2 text-4xl opacity-20">🧪</div>
 				<div className="absolute bottom-2 left-2 text-3xl opacity-20">🔬</div>
 
-				<CardContent className="pt-4 pb-4">
+				<CardContent className="p-2">
 					{/* Laboratory scene with cute characters */}
 					<div className="text-center mb-4">
 						<div className="text-6xl mb-3 animate-float">⚗️</div>
@@ -59,7 +71,7 @@ const Home = () => {
 
 			{/* Warning Notice */}
 			<Card className="bg-yellow-50 border border-yellow-200 rounded-2xl p-3 mb-4">
-				<CardContent className="p-0">
+				<CardContent className="p-2">
 					<h3 className="text-xs font-bold text-yellow-800 mb-2">
 						⚠️ 주의사항
 					</h3>
@@ -71,16 +83,14 @@ const Home = () => {
 				</CardContent>
 			</Card>
 
-			{/* Start Button */}
 			<Link href="/questions">
 				<Button className="w-full btn-primary py-4">🚀 실험 시작하기</Button>
 			</Link>
 
-			{/* Admin Link (Hidden) */}
 			<div className="text-center mt-3">
 				<button
-					// onClick={showAdminLogin}
 					className="text-xs text-gray-400 hover:text-gray-600"
+					onClick={showAdminLogin}
 				>
 					관리자
 				</button>
