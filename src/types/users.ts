@@ -1,7 +1,7 @@
 export interface User {
 	name: string;
 	gender?: 'male' | 'female';
-	class: number;
+	class?: number;
 }
 
 export interface UserDTO extends User {

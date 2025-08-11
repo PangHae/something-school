@@ -4,6 +4,8 @@ import { useState } from 'react';
 
 import { useRouter } from 'next/navigation';
 
+import { toast } from 'sonner';
+
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -18,13 +20,13 @@ const UserInfoClient = ({ onNextStep }: Props) => {
 	const router = useRouter();
 	const [userInfo, setUserInfo] = useState<User>({
 		name: '',
-		gender: 'male',
-		class: 1,
+		class: '' as any, // 빈 문자열로 초기화하여 controlled input 유지
+		gender: undefined,
 	});
 
 	const handleStartQuestions = () => {
-		if (!userInfo.name.trim() || !userInfo.class) {
-			alert('모든 정보를 입력해주세요!');
+		if (!userInfo.name.trim() || !userInfo.class || !userInfo.gender) {
+			toast.error('모든 정보를 입력해주세요!');
 			return;
 		}
 		sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
@@ -131,7 +133,7 @@ const UserInfoClient = ({ onNextStep }: Props) => {
 								onChange={(e) =>
 									setUserInfo({
 										...userInfo,
-										class: parseInt(e.target.value) || 1,
+										class: parseInt(e.target.value) || ('' as any),
 									})
 								}
 								className="input-field"
