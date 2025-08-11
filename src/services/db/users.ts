@@ -1,7 +1,7 @@
-import { User, UserDTO } from '@/types/users';
+import { UserResult, UserDTO } from '@/types/users';
 import { supabaseClient } from '@/utils/supabase/client';
 
-export const createUser = async (user: User) => {
+export const createUser = async (user: UserResult) => {
 	try {
 		const supabase = supabaseClient();
 		const { data, error } = await supabase

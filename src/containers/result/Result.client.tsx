@@ -11,10 +11,10 @@ import { calculateStats } from '@/lib/status';
 import { createResult, subscribeToUserResults } from '@/services/db/results';
 import { createUser } from '@/services/db/users';
 import { TestResult, ParticipantStats } from '@/types/results';
-import { User } from '@/types/users';
+import { UserResult } from '@/types/users';
 
 const ResultClient = () => {
-	const [userInfo, setUserInfo] = useState<User | null>(null);
+	const [userInfo, setUserInfo] = useState<UserResult | null>(null);
 	const [testResult, setTestResult] = useState<TestResult | null>(null);
 	const [stats, setStats] = useState<ParticipantStats | null>(null);
 	const [statsLoading, setStatsLoading] = useState(true);
@@ -24,7 +24,6 @@ const ResultClient = () => {
 		onSuccess: (data) => {
 			sessionStorage.setItem('submitted', 'true');
 
-			// 본인 결과를 즉시 통계에 반영
 			if (testResult && userInfo) {
 				const newResult = {
 					id: data[0].id,

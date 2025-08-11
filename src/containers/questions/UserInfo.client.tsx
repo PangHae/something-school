@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { User } from '@/types/users';
+import { UserInput } from '@/types/users';
 
 interface Props {
 	onNextStep: () => void;
@@ -18,9 +18,9 @@ interface Props {
 
 const UserInfoClient = ({ onNextStep }: Props) => {
 	const router = useRouter();
-	const [userInfo, setUserInfo] = useState<User>({
+	const [userInfo, setUserInfo] = useState<UserInput>({
 		name: '',
-		class: '' as any, // 빈 문자열로 초기화하여 controlled input 유지
+		class: '',
 		gender: undefined,
 	});
 
@@ -133,7 +133,7 @@ const UserInfoClient = ({ onNextStep }: Props) => {
 								onChange={(e) =>
 									setUserInfo({
 										...userInfo,
-										class: parseInt(e.target.value) || ('' as any),
+										class: parseInt(e.target.value) || '',
 									})
 								}
 								className="input-field"
