@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react';
 
+import Link from 'next/link';
+
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -109,7 +111,7 @@ const AdminClient = () => {
 			<Card className="bg-white rounded-3xl shadow-xl mb-6">
 				<CardHeader>
 					<CardTitle className="text-lg font-bold text-green-500">
-						📝 최근 참가자
+						📝 최근 참가자 ({userResults.length})
 					</CardTitle>
 				</CardHeader>
 				<CardContent>
@@ -152,7 +154,9 @@ const AdminClient = () => {
 			</Card>
 
 			{/* Back Button */}
-			<Button className="btn-gray">← 메인으로 돌아가기</Button>
+			<Link href="/">
+				<Button className="btn-gray">← 메인으로 돌아가기</Button>
+			</Link>
 		</div>
 	);
 };
