@@ -137,6 +137,7 @@ const UserInfoClient = ({ onNextStep }: Props) => {
 									})
 								}
 								className="input-field"
+								inputMode="numeric"
 								placeholder="반을 입력하세요"
 							/>
 						</div>
