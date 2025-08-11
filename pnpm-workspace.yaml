@@ -1,2 +1,7 @@
 ignoredBuiltDependencies:
+  - '@tailwindcss/oxide'
+  - sharp
+  - unrs-resolver
+
+onlyBuiltDependencies:
   - '@vercel/speed-insights'
