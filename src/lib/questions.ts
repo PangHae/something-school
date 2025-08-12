@@ -4,26 +4,26 @@ export const questions: Question[] = [
 	{
 		question: 'Q1. 내 썸 시작 스타일은?',
 		options: [
-			{ text: '💬 먼저 말 걸기', type: 'testosterone', value: 2 },
+			{ text: '💬 먼저 말 걸기', type: 'testosterone', value: 3 },
 			{ text: '👀 눈빛으로 어필', type: 'estrogen', value: 1 },
-			{ text: '😊 자연스럽게 웃으며', type: 'estrogen', value: 2 },
+			{ text: '😊 자연스럽게 웃으며', type: 'estrogen', value: 3 },
 			{ text: '🤔 상황 봐가며', type: 'testosterone', value: 1 },
 		],
 	},
 	{
 		question: 'Q2. 썸남/썸녀가 늦게 답장하면?',
 		options: [
-			{ text: '😤 바로 따지기', type: 'testosterone', value: 2 },
+			{ text: '😤 바로 따지기', type: 'testosterone', value: 3 },
 			{ text: '😢 속상하지만 참기', type: 'estrogen', value: 1 },
-			{ text: '🤷‍♀️ 바쁜가보다 하기', type: 'estrogen', value: 2 },
+			{ text: '🤷‍♀️ 바쁜가보다 하기', type: 'estrogen', value: 3 },
 			{ text: '📱 더 늦게 답장하기', type: 'testosterone', value: 1 },
 		],
 	},
 	{
 		question: 'Q3. 데이트 장소 정할 때',
 		options: [
-			{ text: '🎯 내가 정해서 제안', type: 'testosterone', value: 2 },
-			{ text: '💭 상대방 취향 고려', type: 'estrogen', value: 2 },
+			{ text: '🎯 내가 정해서 제안', type: 'testosterone', value: 3 },
+			{ text: '💭 상대방 취향 고려', type: 'estrogen', value: 3 },
 			{ text: '🤝 같이 의논해서', type: 'estrogen', value: 1 },
 			{ text: '😅 상대방에게 맡기기', type: 'testosterone', value: 1 },
 		],
@@ -31,26 +31,26 @@ export const questions: Question[] = [
 	{
 		question: 'Q4. 썸 상대가 다른 사람과 친하게 지내면?',
 		options: [
-			{ text: '🔥 직접 질문하기', type: 'testosterone', value: 2 },
+			{ text: '🔥 직접 질문하기', type: 'testosterone', value: 3 },
 			{ text: '😭 속으로만 질투', type: 'estrogen', value: 1 },
-			{ text: '🧐 상황 파악하기', type: 'estrogen', value: 2 },
+			{ text: '🧐 상황 파악하기', type: 'estrogen', value: 3 },
 			{ text: '😤 나도 다른 사람과', type: 'testosterone', value: 1 },
 		],
 	},
 	{
 		question: 'Q5. 고백을 받는다면?',
 		options: [
-			{ text: '💪 나도 먼저 할걸', type: 'testosterone', value: 2 },
+			{ text: '💪 나도 먼저 할걸', type: 'testosterone', value: 3 },
 			{ text: '😊 받는 게 좋다', type: 'estrogen', value: 1 },
-			{ text: '🤔 상황에 따라', type: 'estrogen', value: 2 },
+			{ text: '🤔 상황에 따라', type: 'estrogen', value: 3 },
 			{ text: '💕 로맨틱하게 받고 싶어', type: 'testosterone', value: 1 },
 		],
 	},
 	{
 		question: 'Q6. 데이트 중 갑자기 비가 오면?',
 		options: [
-			{ text: '🏃‍♂️ 빨리 뛰어가자', type: 'testosterone', value: 2 },
-			{ text: '☔ 우산 하나로 같이', type: 'estrogen', value: 2 },
+			{ text: '🏃‍♂️ 빨리 뛰어가자', type: 'testosterone', value: 3 },
+			{ text: '☔ 우산 하나로 같이', type: 'estrogen', value: 3 },
 			{ text: '🏠 근처 카페로 피하기', type: 'estrogen', value: 1 },
 			{ text: '🌧️ 비 맞으며 걷기', type: 'testosterone', value: 1 },
 		],
@@ -58,8 +58,8 @@ export const questions: Question[] = [
 	{
 		question: 'Q7. 첫 키스는 언제?',
 		options: [
-			{ text: '💋 분위기 되면 바로', type: 'testosterone', value: 2 },
-			{ text: '💖 특별한 날에', type: 'estrogen', value: 2 },
+			{ text: '💋 분위기 되면 바로', type: 'testosterone', value: 3 },
+			{ text: '💖 특별한 날에', type: 'estrogen', value: 3 },
 			{ text: '🤗 자연스럽게 될 때', type: 'estrogen', value: 1 },
 			{ text: '⏰ 충분히 알고 나서', type: 'testosterone', value: 1 },
 		],
@@ -67,26 +67,26 @@ export const questions: Question[] = [
 	{
 		question: 'Q8. 내 연애 표현 방식',
 		options: [
-			{ text: '💬 감정표현 자주 함', type: 'testosterone', value: 2 },
+			{ text: '💬 감정표현 자주 함', type: 'testosterone', value: 3 },
 			{ text: '☺️ 티는 내지만 먼저는 못 함', type: 'estrogen', value: 1 },
-			{ text: '🤗 먼저 말하면 맞장구', type: 'estrogen', value: 2 },
+			{ text: '🤗 먼저 말하면 맞장구', type: 'estrogen', value: 3 },
 			{ text: '✊ 표현 없으면 연애 안됨', type: 'testosterone', value: 1 },
 		],
 	},
 	{
 		question: 'Q9. 싸웠을 때 해결 방법',
 		options: [
-			{ text: '🗣️ 바로 대화로 해결', type: 'testosterone', value: 2 },
+			{ text: '🗣️ 바로 대화로 해결', type: 'testosterone', value: 3 },
 			{ text: '😔 시간 두고 풀기', type: 'estrogen', value: 1 },
-			{ text: '🤝 서로 양보하기', type: 'estrogen', value: 2 },
+			{ text: '🤝 서로 양보하기', type: 'estrogen', value: 3 },
 			{ text: '💌 편지나 메시지로', type: 'testosterone', value: 1 },
 		],
 	},
 	{
 		question: 'Q10. 기념일을 챙기는 스타일',
 		options: [
-			{ text: '📅 정확히 다 챙기기', type: 'testosterone', value: 2 },
-			{ text: '💝 특별하게 준비', type: 'estrogen', value: 2 },
+			{ text: '📅 정확히 다 챙기기', type: 'testosterone', value: 3 },
+			{ text: '💝 특별하게 준비', type: 'estrogen', value: 3 },
 			{ text: '🎉 간단하게 축하', type: 'estrogen', value: 1 },
 			{ text: '💭 마음으로만', type: 'testosterone', value: 1 },
 		],
@@ -95,8 +95,8 @@ export const questions: Question[] = [
 		question: 'Q11. 미래의 연인에게 바라는 것',
 		options: [
 			{ text: '💪 든든하고 리드해주길', type: 'estrogen', value: 1 },
-			{ text: '🤗 나를 따라와 주길', type: 'testosterone', value: 2 },
-			{ text: '👫 서로 존중하며', type: 'estrogen', value: 2 },
+			{ text: '🤗 나를 따라와 주길', type: 'testosterone', value: 3 },
+			{ text: '👫 서로 존중하며', type: 'estrogen', value: 3 },
 			{ text: '💕 로맨틱한 사랑', type: 'testosterone', value: 1 },
 		],
 	},
