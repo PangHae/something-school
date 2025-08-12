@@ -1,8 +1,6 @@
 export interface TestResult {
 	estrogenScore: number;
 	testosteroneScore: number;
-	estrogenPercent: number;
-	testosteronePercent: number;
 	resultType: string;
 	resultSubtype: string;
 	resultIcon: string;

@@ -1,6 +1,6 @@
 export interface QuestionOption {
 	text: string;
-	type: 'estrogen' | 'testosterone' | 'mixed';
+	type: 'estrogen' | 'testosterone';
 	value: number;
 }
 

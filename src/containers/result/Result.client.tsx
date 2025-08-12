@@ -23,7 +23,6 @@ const ResultClient = () => {
 		mutationFn: createResult,
 		onSuccess: (data) => {
 			sessionStorage.setItem('submitted', 'true');
-
 			if (testResult && userInfo) {
 				const newResult = {
 					id: data[0].id,
@@ -204,11 +203,6 @@ const ResultClient = () => {
 						<p className="text-sm font-bold text-gray-700">
 							에스트로겐 {testResult?.estrogenScore}점 vs 테스토스테론{' '}
 							{testResult?.testosteroneScore}점
-						</p>
-						<p className="text-sm text-gray-600">
-							({testResult?.estrogenPercent}% :{' '}
-							{testResult?.testosteronePercent}
-							%)
 						</p>
 					</div>
 				</CardContent>

@@ -115,12 +115,6 @@ export function calculateResults(answers: number[], gender: string) {
 		}
 	});
 
-	const totalScore = estrogenScore + testosteroneScore;
-	const estrogenPercent =
-		totalScore > 0 ? (estrogenScore / totalScore) * 100 : 50;
-	const testosteronePercent =
-		totalScore > 0 ? (testosteroneScore / totalScore) * 100 : 50;
-
 	let resultType: string;
 	let resultSubtype: string;
 	let resultIcon: string;
@@ -146,8 +140,6 @@ export function calculateResults(answers: number[], gender: string) {
 	return {
 		estrogenScore,
 		testosteroneScore,
-		estrogenPercent: Math.round(estrogenPercent * 10) / 10,
-		testosteronePercent: Math.round(testosteronePercent * 10) / 10,
 		resultType,
 		resultSubtype,
 		resultIcon,
