@@ -20,7 +20,7 @@ export const createResult = async (result: ResultRequest) => {
 
 		if (
 			!result.resultType ||
-			!['에스트로겐형', '테스토스테론형'].includes(result.resultType)
+			!['에스트로겐형', '테스토스테론형', '혼합형'].includes(result.resultType)
 		) {
 			throw new Error('유효하지 않은 결과 타입입니다.');
 		}
