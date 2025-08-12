@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 	title: '썸띵스쿨 | 호르몬 실험실',
 	description: '너 테토야? 에겐이야?',
 	openGraph: {
-		images: '/og-image.png',
+		images: '/images/og-image.png',
 	},
 };
 
