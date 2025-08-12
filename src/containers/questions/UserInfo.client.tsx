@@ -24,11 +24,44 @@ const UserInfoClient = ({ onNextStep }: Props) => {
 		gender: undefined,
 	});
 
-	const handleStartQuestions = () => {
-		if (!userInfo.name.trim() || !userInfo.class || !userInfo.gender) {
-			toast.error('모든 정보를 입력해주세요!');
-			return;
+	const validateUserInfo = () => {
+		const validations = [
+			{
+				condition: !userInfo.name.trim(),
+				message: '이름을 입력해주세요!',
+			},
+			{
+				condition: !userInfo.gender,
+				message: '성별을 선택해주세요!',
+			},
+			{
+				condition: !userInfo.class,
+				message: '반을 입력해주세요!',
+			},
+			{
+				condition: typeof userInfo.class !== 'number',
+				message: '반을 숫자로 입력해주세요!',
+			},
+			{
+				condition:
+					typeof userInfo.class === 'number' &&
+					(userInfo.class < 1 || userInfo.class > 20),
+				message: '반을 1~20 사이로 입력해주세요!',
+			},
+		];
+
+		for (const validation of validations) {
+			if (validation.condition) {
+				toast.error(validation.message);
+				return false;
+			}
 		}
+		return true;
+	};
+
+	const handleStartQuestions = () => {
+		if (!validateUserInfo()) return;
+
 		sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
 		onNextStep();
 	};
