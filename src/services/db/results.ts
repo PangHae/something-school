@@ -10,19 +10,11 @@ export const createResult = async (result: ResultRequest) => {
 			throw new Error('유효하지 않은 사용자입니다.');
 		}
 
-		if (
-			!result.estrogenScore ||
-			result.estrogenScore < 0 ||
-			result.estrogenScore > 100
-		) {
+		if (result.estrogenScore < 0 || result.estrogenScore > 100) {
 			throw new Error('유효하지 않은 에스트로겐 점수입니다.');
 		}
 
-		if (
-			!result.testosteroneScore ||
-			result.testosteroneScore < 0 ||
-			result.testosteroneScore > 100
-		) {
+		if (result.testosteroneScore < 0 || result.testosteroneScore > 100) {
 			throw new Error('유효하지 않은 테스토스테론 점수입니다.');
 		}
 
