@@ -13,8 +13,12 @@ import { createUser } from '@/services/db/users';
 import { TestResult, ParticipantStats } from '@/types/results';
 import { UserResult } from '@/types/users';
 
-const ResultClient = () => {
-	const [userInfo, setUserInfo] = useState<UserResult | null>(null);
+interface ResultClientProps {
+	userInfo: UserResult;
+	testAnswers: number[];
+}
+
+const ResultClient = ({ userInfo, testAnswers }: ResultClientProps) => {
 	const [testResult, setTestResult] = useState<TestResult | null>(null);
 	const [stats, setStats] = useState<ParticipantStats | null>(null);
 	const [statsLoading, setStatsLoading] = useState(true);
@@ -108,30 +112,20 @@ const ResultClient = () => {
 	});
 
 	useEffect(() => {
-		const storedUserInfo = sessionStorage.getItem('userInfo');
-		const storedAnswers = sessionStorage.getItem('testAnswers');
-		const storedSubmitted = sessionStorage.getItem('submitted');
-
-		if (!storedUserInfo || !storedAnswers) {
-			return;
-		}
-
-		const parsedUserInfo = JSON.parse(storedUserInfo);
-		const parsedAnswers = JSON.parse(storedAnswers);
-
-		setUserInfo(parsedUserInfo);
-
-		const results = calculateResults(parsedAnswers, parsedUserInfo.gender);
+		// props로 받은 데이터로 결과 계산
+		const results = calculateResults(testAnswers, userInfo.gender || 'male');
 		setTestResult(results);
 
+		// 이미 제출되었는지 확인
+		const storedSubmitted = sessionStorage.getItem('submitted');
 		if (!Boolean(storedSubmitted)) {
 			userMutate({
-				name: parsedUserInfo.name,
-				gender: parsedUserInfo.gender,
-				class: parsedUserInfo.class,
+				name: userInfo.name,
+				gender: userInfo.gender || 'male',
+				class: userInfo.class,
 			});
 		}
-	}, []);
+	}, [userInfo, testAnswers, userMutate]);
 
 	useEffect(() => {
 		const unsubscribe = subscribeToUserResults(
@@ -150,7 +144,7 @@ const ResultClient = () => {
 		return unsubscribe;
 	}, []);
 
-	if (!userInfo || !testResult) {
+	if (!testResult) {
 		return <div className="page-container">결과 계산 중...</div>;
 	}
 
