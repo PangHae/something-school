@@ -92,7 +92,8 @@ const UserInfoClient = ({ onNextStep }: Props) => {
 									setUserInfo({ ...userInfo, name: e.target.value })
 								}
 								className="input-field"
-								placeholder="이름을 입력하세요"
+								maxLength={2}
+								placeholder="이름을 입력하세요(최대 2자)"
 							/>
 						</div>
 
