@@ -123,6 +123,8 @@ const AdminClient = () => {
 									<TableHead>성별</TableHead>
 									<TableHead>반</TableHead>
 									<TableHead>결과</TableHead>
+									<TableHead>에겐 수치</TableHead>
+									<TableHead>테토 수치</TableHead>
 									<TableHead>시간</TableHead>
 								</TableRow>
 							</TableHeader>
@@ -137,6 +139,8 @@ const AdminClient = () => {
 										</TableCell>
 										<TableCell>{result.users.class}반</TableCell>
 										<TableCell>{result.result_subtype.split(' ')[0]}</TableCell>
+										<TableCell>{result.estrogen_score}</TableCell>
+										<TableCell>{result.testosterone_score}</TableCell>
 										<TableCell>
 											{new Date(result.created_at).toLocaleTimeString('ko-KR', {
 												hour: '2-digit',

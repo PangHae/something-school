@@ -25,7 +25,7 @@ const Result = () => {
 		// 데이터가 없거나 불완전한 경우 메인 페이지로 리다이렉트
 		if (!storedUserInfo || !storedAnswers) {
 			toast.error('올바른 경로로 접근해주세요.');
-			router.push('/');
+			router.replace('/');
 			return;
 		}
 
@@ -42,7 +42,7 @@ const Result = () => {
 				!Array.isArray(parsedAnswers)
 			) {
 				toast.error('올바른 경로로 접근해주세요.');
-				router.push('/');
+				router.replace('/');
 				return;
 			}
 
@@ -52,7 +52,7 @@ const Result = () => {
 		} catch {
 			// JSON 파싱 에러 시 메인 페이지로 리다이렉트
 			toast.error('올바른 경로로 접근해주세요.');
-			router.push('/');
+			router.replace('/');
 			return;
 		} finally {
 			setIsLoading(false);
